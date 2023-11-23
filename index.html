@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DELICIOUS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nombre+de+la+Fuente">
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAn_tu6y8D4PgBAtDl2QP3JFuyPPr8WF9s&callback=inicializarMapa"
+        async defer></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Satisfy&display=swap');
+      
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            list-style: none;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f4f0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background-image: linear-gradient(
+                    rgba(0, 0, 0, 0.4),
+                    rgba(0, 0, 0, 0.4)
+                ),
+                url(imagen/bg.jpg);
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            min-height: 70vh;
+            padding: 50px 0 0 0;
+        }
+
+        .menu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            color: #FFFFFF;
+            text-transform: uppercase;
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .menu .navbar ul li {
+            position: relative;
+            float: left;
+        }
+
+        .menu .navbar ul li a {
+            font-size: 18px;
+            padding: 20px;
+            color: #FFFFFF;
+            display: block;
+            font-weight: 600;
+        }
+
+        .menu .navbar ul li a:hover {
+            color: #6A6F4C;
+        }
+
+        #menu {
+            display: none;
+        }
+
+        .menu-icono {
+            width: 25px;
+        }
+
+        .menu label {
+            cursor: pointer;
+            display: none;
+        }
+
+        .header-text {
+            text-align: center;
+        }
+
+        .header-text h1 {
+            font-size: 75px;
+            font-family: 'satisfy', cursive;
+            color: #FFFFFF;
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+
+        .header-text p {
+            font-size: 35px;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .information-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.39);
+            margin-top: -50px;
+        }
+
+        .information-2,
+        .information-a1,
+        .information-b1 {
+            height: 300px;
+        }
+
+        .information-2,
+        .information-1 {
+            flex-basis: calc(50% - 20px);
+            margin-bottom: 20px;
+        }
+
+        .information-c1 {
+            padding: 45px;
+            text-align: center;
+            background-color: #FFFFFF;
+            height: 300px;
+        }
+
+        .contact-section {
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .contact-section h2 {
+            font-size: 24px;
+        }
+
+        .contact-section p {
+            font-size: 18px;
+        }
+
+        .contact-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .contact-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .contact-section a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .contact-section a:hover {
+            text-decoration: underline;
+        }
+
+        h1,
+        h3 {
+            font-style: italic;
+            /* Agregado: establecer estilo de cursiva */
+            font-size: 40px;
+            font-family: 'satisfy', cursive;
+            margin-bottom: 15px;
+            color: #2c2c2c;
+        }
+
+        .title-overlay {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mapa-img {
+            width: 100%;
+            height: auto;
+        }
+
+        .title-overlay h3 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 40px;
+            font-family: 'satisfy', cursive;
+            text-align: center;
+            margin: 0;
+        }
+
+        /* Reglas de medios para pantallas más pequeñas (móviles) */
+        @media screen and (max-width: 768px) {
+            .menu {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .menu label {
+                display: block;
+            }
+
+            .menu .navbar {
+                display: none;
+                width: 100%;
+                background-color: #333;
+                position: absolute;
+                top: 60px; /* Ajusta según sea necesario */
+                left: 0;
+            }
+
+            .menu .navbar ul {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .menu .navbar ul li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .menu.active .navbar {
+                display: block;
+            }
+
+            .header-text h1 {
+                font-size: 40px;
+            }
+
+            .header-text p {
+                font-size: 20px;
+            }
+
+            .information-2,
+            .information-1 {
+                flex-basis: 100%;
+            }
+
+            .information-c1 {
+                padding: 20px;
+                height: auto;
+            }
+
+            .contact-section h2 {
+                font-size: 20px;
+            }
+
+            .contact-section p {
+                font-size: 16px;
+            }
+        }
+        /* Estilo para el texto en las secciones de Comidas y Postres */
+        .information-c1 h1,
+        .information-c1 h3,
+        .information-c1 p {
+            color: #2c2c2c;
+        }
+
+        /* Ajustes para dispositivos móviles */
+        @media screen and (max-width: 768px) {
+            .information-c1 {
+                height: auto; 
+                padding: 20px; 
+            }
+
+            .information-c1 h1 {
+                font-size: 24px; 
+            }
+
+            .information-c1 h3 {
+                font-size: 18px; 
+            }
+
+            .information-c1 p {
+                font-size: 16px;
+            }
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+        .our{
+          margin-top: -50px;
+          padding:250px 0;
+          background:linear-gradient(rgba(0,0,0,0.4),
+          rgba(0,0,0,0.4)
+          ), 
+          url(imagen/blog3.jpg);
+          background-position: center center;
+          background-repeat: no-repeat;
+          background-size: cover;
+          text-align: center;
+        }
+        @media (max-width: 991px) {
+    .menu {
+        padding: 20px;
+    }
+
+    .menu label {
+        display: block; /* Cambiado a 'block' en lugar de 'initial' */
+        cursor: pointer;
+    }
+
+    .menu .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #6A6F4C;
+        display: none;
+    }
+
+    .menu #menu:checked + .navbar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menu .navbar ul {
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+    }
+
+    .menu .navbar ul li {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="menu container">
+            <a href="#" class="logo">DELICIOUS</a>
+            <input type="checkbox" id="menu" />
+            <label for="menu">
+                <img src="imagen/menu.png" alt="menu" class="menu-icono">
+            </label>
+            <nav class="navbar">
+                <ul>
+                    <div class="search-container">
+                        <input type="text" id="search-input" placeholder="Buscar...">
+                        <button onclick="buscarSeccion()"><i class="fas fa-search"></i></button>
+                    </div>
+                    
+                    
+                    <li> <a href="Sesion/sesion/registro.html">Sesión</a></li>
+                    <li> <a href="#">Reservación</a></li>
+                    <li> <a href="#contact-section">Contactos</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="menu" id="menu">
+            <h1>Menú</h1>
+        </div>
+        <div class="header-contact container">
+            <div class="header-text">
+                <h1>Delicious</h1>
+                <p>El mejor sazón de nuestro restaurante a tu hogar</p>
+            </div>
+        </div>
+    </header>
+
+    <section class="information container">
+
+        <div class="information-content">
+
+            <div class="information-1">
+                <div class="information-c1">
+                    <h1>Menú de Bebidas</h1>
+                    <p>Ingresa y prueba nuestras deliciosas bebidas, refrescante con sabor.</p>
+                    <a href="bebidas/bebidas.php" class="btn-1">Bebidas</a>
+                </div>
+                <div class="information-a1">
+                    <img src="imagen/bebidas.png" alt="">
+                </div>
+            </div>
+
+            <div class="information-2">
+                <div class="information-b1">
+                    <img src="imagen/comi.jpg" alt="">
+                </div>
+                <div class="information-c1">
+                    <h3>Menú de Comidas </h3>
+                    <p>Prueba los mejores platillos de nuestro restaurante que tiene para ti.</p>
+                    <a href="Comida/comidas.php" class="btn-1">Comidas</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="information-content">
+
+            <div class="information-1">
+                <div class="information-c1">
+                    <h1>Menú de Desayunos</h1>
+                    <p>Empieza tus mañanas con los mejores desayunos.</p>
+                    <a href="desayunos/desayunos.php" class="btn-1">Desayunos</a>
+                </div>
+                <div class="information-a1">
+                    <img src="imagen/desayuno.jpg" alt="">
+                </div>
+            </div>
+
+            <div class="information-2">
+                <div class="information-b1">
+                    <img src="imagen/pos.jpg" alt="">
+                </div>
+                <div class="information-c1">
+                    <h3>Menú de postres </h3>
+                    <p>Endulza tu día con los postres más deliciosos.</p>
+                    <a href="postres/postres.php" class="btn-1">Postres</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="our">
+        <div class="container">
+            <div class="title-overlay">
+                <img src="imagen/comid.jpg" alt="Mapa" class="mapa-img">
+                <h3>Encuéntranos en:</h3>
+            </div>
+            <div class="mapa" id="mapa">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1580.0124857711082!2d-99.32456806026717!3d19.630538993978963!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d2199e19effb7f%3A0x75d542494b6e1d2e!2sSan%20Pedro%2C%20Zaragoza%2C%2054457%20Villa%20Nicol%C3%A1s%20Romero%2C%20M%C3%A9x.!5e0!3m2!1ses-419!2smx!4v1696806932256!5m2!1ses-419!2smx"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+
+        <footer id="contact-section" class="contact-section">
+            <h2>Contactos</h2>
+            <p>Síguenos en redes sociales:</p>
+            <ul>
+                <li>
+                    <a href="https://instagram.com/alo_manoban_?igshid=MzRlODBiNWFlZA==" target="_blank">
+                        <i class="fab fa-instagram"></i> Instagram
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.facebook.com/andreasujey.gomezdelarosa?mibextid=ZbWKwL" target="_blank">
+                        <i class="fab fa-facebook"></i> Facebook
+                    </a>
+                </li>
+                <li>
+                    <a href="https://instagram.com/alo_manoban_?igshid=MzRlODBiNWFlZA==" target="_blank">
+                        <i class="fab fa-twitter"></i> Twitter
+                    </a>
+                </li>
+            </ul>
+            <p>Número de teléfono: +1 (123) 456-7890</p>
+            <p>Correo electrónico: info@example.com</p>
+            <p>San Pedro, 54457 Villa Nicolás Romero, Méx</p>
+        </footer>
+    </section>
+
+    <script>
+       function buscarSeccion() {
+    // Obtener el valor del campo de búsqueda
+    var searchTerm = document.getElementById("search-input").value.toLowerCase();
+
+    // Realizar la redirección en función del término de búsqueda
+    if (searchTerm === "menu") {
+        // Redirigir a la sección de menú
+        window.location.href = "#menu";
+    } else if (searchTerm === "contactos" || searchTerm === "contacto") {
+        // Redirigir a la sección de contactos
+        window.location.href = "#contact-section";
+    } else if (searchTerm === "direccion" || searchTerm === "mapa") {
+        // Redirigir a la sección del mapa
+        window.location.href = "#mapa";
+    } else {
+        // Mostrar un mensaje de error o realizar alguna acción predeterminada
+        alert("No se encontraron resultados para la búsqueda.");
+    }
+}
+
+    </script>
+
+</body>
+
+</html>
